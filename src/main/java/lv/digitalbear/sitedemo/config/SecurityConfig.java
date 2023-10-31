@@ -1,7 +1,6 @@
 package lv.digitalbear.sitedemo.config;
 
 import lv.digitalbear.sitedemo.model.Roles;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,18 +17,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> {
-//                    auth.requestMatchers("/").permitAll();
-//                    auth.requestMatchers(HttpMethod.GET, "/api//**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name());
-//                    auth.requestMatchers(HttpMethod.POST, "/api/**").hasRole(Roles.ADMIN.name());
-//                    auth.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole(Roles.ADMIN.name());
-//                    //auth.anyRequest();
-//                });
-//        return http.build();
-//    }
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name());
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/**").hasRole(Roles.ADMIN.name());
+                    auth.requestMatchers(HttpMethod.DELETE, "/api/v1/**").hasRole(Roles.ADMIN.name());
+                    auth.anyRequest().authenticated();
+                });
+        return http.build();
+    }
 
     @Bean
     public PasswordEncoder passEncoder() {
@@ -42,12 +41,12 @@ public class SecurityConfig {
                 User.builder()
                         .username("admin")
                         .password(passEncoder().encode("admin"))
-                        //.roles(Roles.ADMIN.name())
+                        .roles(Roles.ADMIN.name())
                         .build(),
                 User.builder()
                         .username("user")
                         .password(passEncoder().encode("user"))
-                        //.roles(Roles.USER.name())
+                        .roles(Roles.USER.name())
                         .build()
         );
     }
