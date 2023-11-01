@@ -1,9 +1,14 @@
 package lv.digitalbear.sitedemo.config;
 
+import lombok.RequiredArgsConstructor;
 import lv.digitalbear.sitedemo.model.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+/*import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -11,43 +16,45 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;*/
 
-@Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
+//@RequiredArgsConstructor
 public class SecurityConfig {
 
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name());
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/**").hasRole(Roles.ADMIN.name());
-                    auth.requestMatchers(HttpMethod.DELETE, "/api/v1/**").hasRole(Roles.ADMIN.name());
-                    auth.anyRequest().authenticated();
-                });
-        return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(
-                User.builder()
-                        .username("admin")
-                        .password(passEncoder().encode("admin"))
-                        .roles(Roles.ADMIN.name())
-                        .build(),
-                User.builder()
-                        .username("user")
-                        .password(passEncoder().encode("user"))
-                        .roles(Roles.USER.name())
-                        .build()
-        );
-    }
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests((requests) -> requests
+//                        .requestMatchers("/").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin((form) -> form
+//                        .loginPage("/login")
+//                        .permitAll()
+//                )
+//                .logout((logout) -> logout.permitAll());
+//
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passEncoder() {
+//        return new BCryptPasswordEncoder(12);
+//    }
+//
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new InMemoryUserDetailsManager(
+//                User.builder()
+//                        .username("admin")
+//                        .password(passEncoder().encode("admin"))
+//                        .roles(Roles.ROLE_ADMIN.name())
+//                        .build(),
+//                User.builder()
+//                        .username("user")
+//                        .password(passEncoder().encode("user"))
+//                        .roles(Roles.ROLE_USER.name())
+//                        .build()
+//        );
+//    }
 }
