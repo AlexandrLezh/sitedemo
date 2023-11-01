@@ -13,30 +13,30 @@ Vue.component('details-form', {
     props: ['details', 'detailAttr'],
     data: function() {
         return {
-            text: '',
+            detailTitle: '',
             id: ''
         }
     },
     watch: {
         detailAttr: function(newVal, oldVal) {
-            this.text = newVal.text;
+            this.detailTitle = newVal.detailTitle;
             this.id = newVal.id;
         }
     },
     template: '<div>' +
-                '<input type="text" placeholder="Enter detail title" v-model="text" />' +
+                '<input type="text" placeholder="Enter detail title" v-model="detailTitle" />' +
                 '<input type="button" value="Save" @click="save" />' +
               '</div>',
     methods: {
         save: function() {
-            var detail = { text: this.text };
+            var detail = { detailTitle: this.detailTitle };
 
             if (this.id) {
                 detailsApi.update({id: this.id}, detail).then(result =>
                         result.json().then(data => {
                             var index = getIndex(this.details, data.id);
                             this.details.splice(index, 1, data);
-                            this.text = '';
+                            this.detailTitle = '';
                             this.id = '';
                         })
                     )
@@ -44,7 +44,7 @@ Vue.component('details-form', {
                 detailsApi.save({}, detail).then(result =>
                     result.json().then(data => {
                         this.details.push(data);
-                        this.text = '';
+                        this.detailTitle = '';
                     })
                 )
             }
