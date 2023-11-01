@@ -56,7 +56,7 @@ Vue.component('details-form', {
 Vue.component('details-row', {
     props: ['detail', 'editMethod', 'details'],
     template: '<div>' +
-        '<i>({{ detail.id }})</i> {{ detail.text }}' +
+        '<i>({{ detail.id }})</i> {{ detail.detailTitle }}' +
         '<span style="position: absolute; right: 0">' +
             '<input type="button" value="Edit" @click="edit" />' +
             '<input type="button" value="X" @click="del" />' +

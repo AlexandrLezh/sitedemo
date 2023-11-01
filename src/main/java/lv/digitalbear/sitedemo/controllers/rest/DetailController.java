@@ -29,12 +29,13 @@ public class DetailController {
 
 
     @PostMapping
-    public DetailEntity create(@RequestBody DetailEntity detail) {
+    public DetailEntity createDetail(@RequestBody DetailEntity detail) {
+
         return detailRepo.save(detail);
     }
 
     @PutMapping("{id}")
-    public DetailEntity update(
+    public DetailEntity updateDetail(
             @PathVariable("id") DetailEntity detailFromDB,
             @RequestBody DetailEntity detail) {
         BeanUtils.copyProperties(detail, detailFromDB, "id");
@@ -42,7 +43,7 @@ public class DetailController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteDetail(@PathVariable Long id) {
-        detailRepo.deleteById(id);
+    public void deleteDetail(@PathVariable("id") DetailEntity detail) {
+        detailRepo.delete(detail);
     }
 }
